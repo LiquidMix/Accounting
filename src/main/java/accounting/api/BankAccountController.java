@@ -17,11 +17,12 @@ import static accounting.repositories.InMemoryPersonRepository.personDB;
 @RequestMapping("api/bank-account")
 @RestController
 public class BankAccountController {
+
     private final BankAccountServiceInterface bankAccountServiceInterface;
 
     @Autowired
-    public BankAccountController(BankAccountService bankAccountService){
-        this.bankAccountServiceInterface=bankAccountService;
+    public BankAccountController(BankAccountServiceInterface bankAccountServiceInterface){
+        this.bankAccountServiceInterface=bankAccountServiceInterface;
     }
 
     @PostMapping

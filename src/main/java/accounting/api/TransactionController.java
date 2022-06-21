@@ -25,9 +25,9 @@ public class TransactionController {
     private  final BankAccountServiceInterface bankAccountServiceInterface;
 
     @Autowired
-    public TransactionController(TransactionService transactionService, BankAccountService bankAccountService){
-        this.transactionServiceInterface = transactionService;
-        this.bankAccountServiceInterface = bankAccountService;
+    public TransactionController(TransactionServiceInterface transactionServiceInterface, BankAccountServiceInterface bankAccountServiceInterface){
+        this.transactionServiceInterface = transactionServiceInterface;
+        this.bankAccountServiceInterface = bankAccountServiceInterface;
     }
 
     @PostMapping

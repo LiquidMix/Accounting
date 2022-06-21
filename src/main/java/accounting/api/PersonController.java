@@ -18,8 +18,8 @@ public class PersonController {
     private final PersonServiceInterface personServiceInterface;
 
     @Autowired
-    public PersonController(PersonService personService) {
-        this.personServiceInterface = personService;
+    public PersonController(PersonServiceInterface personServiceInterface) {
+        this.personServiceInterface = personServiceInterface;
     }
 
     @PostMapping
