@@ -3,7 +3,9 @@ package accounting.api;
 import accounting.model.BankAccount;
 import accounting.model.Transaction;
 import accounting.services.BankAccountService;
+import accounting.services.BankAccountServiceInterface;
 import accounting.services.TransactionService;
+import accounting.services.TransactionServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
@@ -19,13 +21,13 @@ import static accounting.repositories.inMemoryBankAccountRepository.bankDB;
 @RequestMapping("api/transaction")
 @RestController
 public class TransactionController {
-    private  final TransactionService transactionService;
-    private  final BankAccountService bankAccountService;
+    private  final TransactionServiceInterface transactionServiceInterface;
+    private  final BankAccountServiceInterface bankAccountServiceInterface;
 
     @Autowired
     public TransactionController(TransactionService transactionService, BankAccountService bankAccountService){
-        this.transactionService = transactionService;
-        this.bankAccountService = bankAccountService;
+        this.transactionServiceInterface = transactionService;
+        this.bankAccountServiceInterface = bankAccountService;
     }
 
     @PostMapping
@@ -44,24 +46,24 @@ public class TransactionController {
         senderAccount.setBalance(senderAccount.getBalance()-transaction.getAmount());
         receiverAccount.setBalance(receiverAccount.getBalance()+transaction.getAmount());
 
-        bankAccountService.updateBankAccount(senderAccount.getId(),senderAccount);
-        bankAccountService.updateBankAccount(receiverAccount.getId(),receiverAccount);
-        return transactionService.addTransaction(transaction);
+        bankAccountServiceInterface.updateBankAccountById(senderAccount.getId(),senderAccount);
+        bankAccountServiceInterface.updateBankAccountById(receiverAccount.getId(),receiverAccount);
+        return transactionServiceInterface.addTransaction(transaction);
     }
 
     @GetMapping
     public List<Transaction> getAllTransactions(){
-        return transactionService.getAllTransactions();
+        return transactionServiceInterface.getAllTransactions();
     }
 
     @GetMapping(path ="{id}")
     public Transaction getTransactionById(@PathVariable("id")UUID id){
-        return transactionService.getTransactionById(id).orElse(null);
+        return transactionServiceInterface.getTransactionById(id).orElse(null);
     }
 
     @DeleteMapping(path ="{id}")
     public void deleteTransactionById(@PathVariable("id")UUID id){
-        transactionService.deleteTransactionById(id);
+        transactionServiceInterface.deleteTransactionById(id);
     }
 
 }

@@ -3,6 +3,7 @@ package accounting.api;
 
 import accounting.model.Person;
 import accounting.services.PersonService;
+import accounting.services.PersonServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
@@ -14,36 +15,36 @@ import java.util.UUID;
 @RequestMapping("api/person")
 @RestController
 public class PersonController {
-    private final PersonService personService;
+    private final PersonServiceInterface personServiceInterface;
 
     @Autowired
     public PersonController(PersonService personService) {
-        this.personService = personService;
+        this.personServiceInterface = personService;
     }
 
     @PostMapping
     public void addPerson(@Valid @NonNull @RequestBody Person person){
-        personService.addPerson(person);
+        personServiceInterface.addPerson(person);
     }
 
     @GetMapping
     public List<Person> getAllPeople(){
-        return personService.getAllPeople();
+        return personServiceInterface.getAllPeople();
     }
 
     @GetMapping(path ="{id}")
     public Person getPersonByID(@PathVariable("id") UUID id){
-        return personService.getPersonById(id).orElse(null); //should return exception/ error code 404
+        return personServiceInterface.getPersonById(id).orElse(null); //should return exception/ error code 404
     }
 
     @DeleteMapping(path="{id}")
     public void deletePersonById(@PathVariable("id") UUID id){
-        personService.deletePerson(id);
+        personServiceInterface.deletePersonById(id);
     }
 
     @PutMapping(path="{id}")
     public void  updatePerson(@PathVariable("id")UUID id, @Valid @NonNull @RequestBody Person personToUpdate){
-        personService.updatePerson(id,personToUpdate);
+        personServiceInterface.updatePersonById(id,personToUpdate);
     }
 
 }
